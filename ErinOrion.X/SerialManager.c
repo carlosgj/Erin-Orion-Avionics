@@ -18,22 +18,86 @@ void dbgSerialPeriodic(void){
             //printf("<%s\n", currentMessage);
             uint8_t cursor=0;
             uint8_t badMessage = FALSE;
+            
+            uint8_t i, j;
+            
             switch(currentMessage[cursor++]){
-                case 's':
-                    //Set
-                    if(currentMessage[cursor++] != ' '){
-                        badMessage = TRUE;
+                case 'p':
+                    if(currentMessageIdx == 2){
+                        //Single 'p' character
+                        //Dump params
+                        for(i=0; i<NUM_PARAMS; i++){
+                            printf("%u: %u\n", i, params[i]);
+                        }
+                        break;
+                    }
+                    else{
+                        if(currentMessage[cursor++] != ' '){
+                            badMessage = TRUE;
+                            break;
+                        }
+                        i = currentMessage[cursor++]-48;
+                        if(currentMessage[cursor++] != ' '){
+                            badMessage = TRUE;
+                            break;
+                        }
+                        j = (uint8_t)atoi(&(currentMessage[cursor++]));
+                        //i is index, j is value
+                        printf("Setting param %u to %u...\n", i, j);
+                        write_param(i, j);
                         break;
                     }
                     break;
                     
+                case 'l':
+                    //Load params
+                    switch(currentMessage[cursor++]){
+                        case 'e':
+                            //load params from EEPROM
+                            i = loadParamsFromEEPROM();
+                            if(i == PARAM_LOAD_SUCCESS){
+                                printf("Params loaded from EEPROM.\n");
+                            }
+                            else{
+                                printf("Error %u loading params from EEPROM!\n", i);
+                                loadParamsFromProgram();
+                                printf("Params loaded from program memory.\n");
+                            }
+                            break;
+                        case 'p':
+                            //load params from program memory
+                            loadParamsFromProgram();
+                            printf("Params loaded from program memory.\n");
+                            break;
+                        default:
+                            badMessage = TRUE;
+                            break;
+                    }
+                    break;
+                    
+                case 'b':
+                    //burn params to EEPROM
+                    burnParamsToEEPROM();
+                    
+                case 't':
+                    //lamp test
+                    break;
+                    
+                case 'x':
+                    RESET();
+                    break; //lol
+                    
                 case 'h':
                     printf("Interactive control:\n");
-                    printf("s <ch> <val> - Set DAC channel to value\n");
-                    printf("q <ch> - Query ADC for channel\n");
-                    printf("p <ch> <0|1> - Stop/start test pattern on channel\n");
-                    printf("e <0|1> - Disable/enable outputs\n");
-                    printf("r <ch> - Query readback (ext. ADC) value\n");
+                    printf("\tx - Reset\n");
+                    printf("Parameter table commands:\n");
+                    printf("\tp - Dump params\n");
+                    printf("\tp <ID> <val> - Set param\n");
+                    printf("\tle - Load params from EEPROM\n");
+                    printf("\tb - burn params to EEPROM\n");
+                    printf("\tlp - Load params from program memory\n");
+                    printf("LED commands:\n");
+                    printf("\tt <0|1> - lamp test off/on\n");
                     break;
                 default:
                     badMessage = TRUE;

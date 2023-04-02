@@ -45,7 +45,7 @@ void __interrupt(irq(TMR1), high_priority) TMR1ISR(void){
     TMR1H = (unsigned char)(MS_TMR_VAL >> 8);
     TMR1L = (unsigned char)(MS_TMR_VAL & 0xff);
 #ifdef MSOUT
-    LATAbits.LATA0 = !LATAbits.LATA0;
+    X3LAT = !X3LAT;
 #endif
     PIR3bits.TMR1IF = FALSE;
 }

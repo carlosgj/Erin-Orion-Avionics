@@ -14,10 +14,14 @@
 #include "TLC5947.h"
 #include "thrusters.h"
 #include "params.h"
+#include "PRNG.h"
 
 #define WDT_CHECK_GOOD 0x11
 
-#define MAIN_LOOP_TIME  (100)
+#define MAIN_LOOP_TIME  (50)
+
+uint16_t cycleSlack;
+uint16_t minCycleSlack = 0xffff;
 
 void init(void);
 void periodicTasks(void);

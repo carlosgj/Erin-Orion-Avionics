@@ -8,7 +8,7 @@ void HV_periodic(void){
     uint16_t now;
     getMillis(&now);
     
-    uint16_t HVOnDuration = (((uint16_t)params[PARAM_HV_ON_DURATION_H]) << 8) | params[PARAM_HV_ON_DURATION_L];
+    uint16_t HVOnDuration = get16BitParam(PARAM_HV_ON_DURATION_L);
     
     //Update state
     if(HVState){
@@ -27,7 +27,7 @@ void HV_periodic(void){
     if(HVLockout){
         //Force state false
         //Force button light off
-        uint16_t HVLockoutDuration = (((uint16_t)params[PARAM_HV_LOCKOUT_DURATION_H]) << 8) | params[PARAM_HV_LOCKOUT_DURATION_L];
+        uint16_t HVLockoutDuration = get16BitParam(PARAM_HV_LOCKOUT_DURATION_L);
         if(now - HVOffTime >= HVLockoutDuration){
             HVLockout = FALSE;
             printf("HV lockout expired.\n");

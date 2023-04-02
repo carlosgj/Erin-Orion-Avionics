@@ -5,37 +5,37 @@ void debug_UART_init(void){
     FIFOInit(&DbgUARTRxBuf);
     
     //Setup UART pins
-    ANSELBbits.ANSELB0 = FALSE;
-    TRISBbits.TRISB0 = INPUT;
-    U1RXPPS = 0b001000;
+    ANSELDbits.ANSELD1 = FALSE;
+    TRISDbits.TRISD1 = INPUT;
+    U2RXPPS = 0b011001;
     
-    ANSELBbits.ANSELB3 = FALSE;
-    TRISBbits.TRISB3 = OUTPUT;
-    RB3PPS = 0x20;
+    ANSELDbits.ANSELD0 = FALSE;
+    TRISDbits.TRISD0 = OUTPUT;
+    RD0PPS = 0x23;
     
     //Setup BRG
-    U1CON0bits.BRGS = TRUE;
-    U1BRGH = 0;
-    U1BRGL = 138;
+    U2CON0bits.BRGS = TRUE;
+    U2BRGH = 0;
+    U2BRGL = 138;
     
     //Setup transmitter
-    U1CON0bits.TXEN = TRUE;
+    U2CON0bits.TXEN = TRUE;
 
     //Setup receiver
-    U1CON0bits.RXEN = TRUE;
+    U2CON0bits.RXEN = TRUE;
     
     //Turn on port
-    U1CON1bits.ON = TRUE;
+    U2CON1bits.ON = TRUE;
     
-    PIE4bits.U1RXIE = TRUE;
+    PIE8bits.U2RXIE = TRUE;
 }
 
 void putch(unsigned char theByte){
-    U1TXB = theByte;
-    while(!U1ERRIRbits.TXMTIF){
+    U2TXB = theByte;
+    while(!U2ERRIRbits.TXMTIF){
     }
 }
 
-void __interrupt(irq(U1RX),high_priority) DbgUARTRxISR(void){
-    FIFOPush(&DbgUARTRxBuf, U1RXB);
+void __interrupt(irq(U2RX),high_priority) DbgUARTRxISR(void){
+    FIFOPush(&DbgUARTRxBuf, U2RXB);
 }
