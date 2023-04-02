@@ -36,13 +36,29 @@ void dbgSerialPeriodic(void){
                             badMessage = TRUE;
                             break;
                         }
-                        i = currentMessage[cursor++]-48;
-                        if(currentMessage[cursor++] != ' '){
+                        
+                        //Get index
+                        i = (uint8_t)atoi(&(currentMessage[cursor++]));
+                        
+                        //Advance cursor to the next space
+                        while(cursor < currentMessageIdx){
+                            if(currentMessage[cursor] == ' '){
+                                break;
+                            }
+                            cursor++;
+                        }
+                        if(cursor == currentMessageIdx){
+                            //No space found
                             badMessage = TRUE;
                             break;
                         }
+                        
                         j = (uint8_t)atoi(&(currentMessage[cursor++]));
                         //i is index, j is value
+                        if(i >= NUM_PARAMS){
+                            printf("Param index out of range!\n");
+                            break;
+                        }
                         printf("Setting param %u to %u...\n", i, j);
                         write_param(i, j);
                         break;

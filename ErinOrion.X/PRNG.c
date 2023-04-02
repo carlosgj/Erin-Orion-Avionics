@@ -8,10 +8,6 @@ void PRNG_Periodic(void){
     PRNG_Iterate();
     PRNGLatestSmall = (uint8_t)(PRNGLatestFull >> 8);
     //printf("%u\n", PRNGLatestFull);
-    uint16_t i; 
-    for(i=0; i<10000; i++){
-        asm("NOP");
-    }
 }
 
 void PRNG_Iterate(void){
