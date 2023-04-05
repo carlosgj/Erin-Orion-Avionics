@@ -37,12 +37,12 @@ const uint8_t programValues[] = {
     0x13,   //HV on duration (ms) high byte
     0x30,   //HV lockout duration (ms) low byte
     0x75,   //HV lockout duration (ms) high byte
-    0xEF,   //PRNG multiplier low byte
-    0x1E,   //PRNG multiplier high byte
-    0x09,   //PRNG increment low byte
-    0x00,   //PRNG increment high byte
-    0,      //PRNG seed low byte
-    0,      //PRNG seed high byte
+    0x09,   //PRNG multiplier low byte
+    0x00,   //PRNG multiplier high byte
+    0xEF,   //PRNG increment low byte
+    0x1E,   //PRNG increment high byte
+    0xAA,      //PRNG seed low byte
+    0xAA,      //PRNG seed high byte
     0, //Param 10
     0, //Param 11
     0, //Param 12
