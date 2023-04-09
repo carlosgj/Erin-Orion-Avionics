@@ -21,6 +21,7 @@
       <itemPath>PRNG.h</itemPath>
       <itemPath>EEPROM.h</itemPath>
       <itemPath>NeoPixel.h</itemPath>
+      <itemPath>ADC.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -45,6 +46,7 @@
       <itemPath>EEPROM.c</itemPath>
       <itemPath>NeoPixel.c</itemPath>
       <itemPath>fast.S</itemPath>
+      <itemPath>ADC.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -207,7 +209,9 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-7fff"/>
-        <property key="poweroptions.powerenable" value="true"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/home/carlos/Documents/Erin-Orion-Avionics/ErinOrion.X/debug/default/ErinOrion_ptg"/>
         <property key="programmerToGoImageName" value="ErinOrion_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
@@ -289,9 +293,9 @@
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-7fff"/>
-        <property key="poweroptions.powerenable" value="true"/>
+        <property key="poweroptions.powerenable" value="false"/>
         <property key="programmerToGoFilePath"
-                  value="/home/carlos/Documents/Erin-Orion-Avionics/ErinOrion.X/debug/default/ErinOrion_ptg"/>
+                  value="/home/carlos/Documents/Erin_Orion/Erin-Orion-Avionics/ErinOrion.X/debug/default/ErinOrion_ptg"/>
         <property key="programmerToGoImageName" value="ErinOrion_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>

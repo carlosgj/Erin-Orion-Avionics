@@ -98,6 +98,9 @@ void init(void){
     button_init();
     printf("Buttons initialized.\n");
     
+    ADC_init();
+    printf("ADC initialized.\n");
+    
     PRNG_Init();
     printf("Pseudorandom number generator initialized.\n");
     

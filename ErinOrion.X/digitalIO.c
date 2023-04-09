@@ -20,7 +20,7 @@ void updateInputs(void){
     newInputs.all = (PORTA & 0b00111111);
     
     if(counter == 10){
-        printf("Button state: 0x%02x\n", newInputs.all);
+        //printf("Button state: 0x%02x\n", newInputs.all);
         counter = 0;
     }
     counter++;

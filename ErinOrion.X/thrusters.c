@@ -7,6 +7,42 @@ void thrusters_init(void){
 void thrusters_periodic(void){
     static uint8_t stateCounter = 0;
     
+    //Update maneuver lockout
+    if(maneuverLockout && (cyclesSinceLastManeuver > get16BitParam(PARAM_MAN_LOCKOUT_L))){
+        maneuverLockout = FALSE;
+        printf("Maneuver lockout expired.\n");
+    }
+    
+    //See if we need to start a maneuver
+    if( !maneuverLockout && !maneuver){
+        //Randomize
+        if((PRNGLatestSmall > MANEUVER_OFFSET) && (PRNGLatestSmall < (MANEUVER_OFFSET + params[PARAM_MAN_PROB])) ){
+            printf("Starting maneuver\n");
+            maneuver = TRUE;
+            maneuverOnTime = 0;
+        }
+    }
+    
+    //See if we need to end maneuver
+    if(maneuver && (maneuverOnTime > params[PARAM_MAN_MIN_TIME])){
+        //Randomize
+        if((PRNGLatestSmall > MANEUVER_OFFSET) && (PRNGLatestSmall < (MANEUVER_OFFSET + params[PARAM_MAN_OFF_PROB]))){
+            //Stop maneuver
+            printf("Stopping maneuver\n");
+            maneuver = FALSE;
+            maneuverLockout = TRUE;
+            cyclesSinceLastManeuver = 0;
+        }
+    }
+    
+    //Update on-time
+    if(maneuver){
+        maneuverOnTime++;
+    }
+    else{
+        cyclesSinceLastManeuver++;
+    }
+        
     //Iterate state machine
     switch(maneuverState){
         case MAN_STATE_OFF:
@@ -31,6 +67,7 @@ void thrusters_periodic(void){
             if(!maneuver){
                 printf("Finishing maneuver\n");
                 maneuverState = MAN_STATE_RAMPDOWN;
+                stateCounter = 0;
             }
             break;
             
@@ -74,7 +111,7 @@ void thrusters_periodic(void){
                 //Turn on
                 printf("Turning off RCS %d\n", rcs);
                 rcsState &= ~(1<<rcs);
-                printf("RCS: 0x%x\n", rcsState);
+                //printf("RCS: 0x%x\n", rcsState);
             }
         }
         else{
@@ -83,7 +120,7 @@ void thrusters_periodic(void){
                 //Turn off
                 printf("Turning on RCS %d\n", rcs);
                 rcsState |= (1<<rcs);
-                printf("RCS: 0x%x\n", rcsState);
+                //printf("RCS: 0x%x\n", rcsState);
             }
         }
         

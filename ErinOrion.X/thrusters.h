@@ -8,6 +8,8 @@
 
 #define MAIN_THRUSTER_LED_INDEX     (2)
 
+#define MANEUVER_OFFSET     (100)
+
 #define MAN_STATE_OFF       (0)
 #define MAN_STATE_RAMPUP    (1)
 #define MAN_STATE_ON        (2)
@@ -18,6 +20,10 @@ uint8_t rcsState = 0;
 uint8_t maneuver = FALSE;
 
 uint8_t maneuverState = MAN_STATE_OFF;
+
+uint16_t cyclesSinceLastManeuver = 0;
+uint8_t maneuverLockout = TRUE;
+uint8_t maneuverOnTime = 0;
 
 void thrusters_init(void);
 void thrusters_periodic(void);
