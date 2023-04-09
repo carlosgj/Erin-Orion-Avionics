@@ -11,9 +11,16 @@ void PRNG_Periodic(void){
 }
 
 void PRNG_Iterate(void){
-    uint16_t temp = PRNGLatestFull;
-    temp *= get16BitParam(PARAM_PRNG_MULT_L);
-    temp += get16BitParam(PARAM_PRNG_INC_L);
+    uint16_t newVal = PRNGLatestFull;
+    newVal *= get16BitParam(PARAM_PRNG_MULT_L);
+    newVal += get16BitParam(PARAM_PRNG_INC_L);
     
-    PRNGLatestFull = temp;    
+    if(params[PARAM_PRNG_USE_TEMP]){
+        uint16_t temperature;
+        ADC_getReading(0b00111100, &temperature);
+        //printf("Temp: 0x%X\n", temperature);
+        newVal += (temperature & 0b111);
+    }
+    
+    PRNGLatestFull = newVal;    
 }

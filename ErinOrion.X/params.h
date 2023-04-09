@@ -26,14 +26,22 @@
 #define PARAM_PRNG_INC_H            (7)
 #define PARAM_PRNG_SEED_L           (8)
 #define PARAM_PRNG_SEED_H           (9)
-#define PARAM_THRUST_RAMPUP_TIME    (10)
-#define PARAM_THRUST_RAMPUP_INC     (11)
-#define PARAM_THRUST_RAMPDWN_TIME   (12)
-#define PARAM_THRUST_RAMPDWN_INC    (13)
-#define PARAM_RCS_IDLE_ON_PRB       (14)
-#define PARAM_RCS_IDLE_OFF_PRB      (15)
-#define PARAM_RCS_MAN_ON_PRB        (16)
-#define PARAM_RCS_MAN_OFF_PRB       (17)
+#define PARAM_PRNG_USE_TEMP         (10)
+#define PARAM_THRUST_RAMPUP_TIME    (11)
+#define PARAM_THRUST_RAMPUP_INC     (12)
+#define PARAM_THRUST_RAMPDWN_TIME   (13)
+#define PARAM_THRUST_RAMPDWN_INC    (14)
+#define PARAM_RCS_IDLE_ON_PRB       (15)
+#define PARAM_RCS_IDLE_OFF_PRB      (16)
+#define PARAM_RCS_MAN_ON_PRB        (17)
+#define PARAM_RCS_MAN_OFF_PRB       (18)
+#define PARAM_MAN_PROB              (19)
+#define PARAM_MAN_LOCKOUT_L         (20)
+#define PARAM_MAN_LOCKOUT_H         (21)
+#define PARAM_MAN_MIN_TIME          (22)
+#define PARAM_MAN_OFF_PROB          (23)
+
+
 
 uint8_t params[NUM_PARAMS] __at(0x800);
 uint8_t params_comp[NUM_PARAMS] __at(0x900);
@@ -51,6 +59,7 @@ const uint8_t programValues[] = {
     0x1E,   //PRNG increment high byte
     0xAA,   //PRNG seed low byte
     0xAA,   //PRNG seed high byte
+    1,      //PRNG add temperature bits on each iteration
     42,     //Thruster manuever rampup time
     6,      //Thruster maneuver rampup increment
     42,     //Thruster manuever rampdown time
@@ -59,12 +68,11 @@ const uint8_t programValues[] = {
     16,     //RCS idle mode turnoff probability
     32,     //RCS maneuver mode turnon probability
     32,     //RCS maneuver mode turnoff probability
-    0, //Param 18
-    0, //Param 19
-    0, //Param 20
-    0, //Param 21
-    0, //Param 22
-    0, //Param 23
+    4,      //Maneuver start probability
+    200,      //Maneuver lockout time low byte
+    0,      //Maneuver lockout time high byte
+    100,    //Maneuver minimum on-time (in cycles)
+    4,      //Maneuver stop probability
     0, //Param 24
     0, //Param 25
     0, //Param 26

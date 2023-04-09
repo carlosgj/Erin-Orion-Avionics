@@ -3,6 +3,7 @@
 
 #include <xc.h> 
 #include "common.h"
+#include "ADC.h"
 
 uint16_t PRNGLatestFull;
 uint8_t PRNGLatestSmall;
