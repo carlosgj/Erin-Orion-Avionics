@@ -7,6 +7,7 @@
 #include "HDLC.h"
 #include "UART.h"
 #include "commConstants.h"
+#include "TLC5947.h"
 
 union controlByte_t {
     uint8_t byte;

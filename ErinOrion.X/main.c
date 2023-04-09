@@ -12,9 +12,21 @@ void main(void) {
         if(wdtCheckWord == WDT_CHECK_GOOD){
             CLRWDT();
         }
+        getMillis(&currentTime);
+        
+        if((currentTime - startTime) >= MAIN_LOOP_TIME){
+            //Cycle slip!
+            status.loopOverruns++;
+            continue;
+        }
+        
+        cycleSlack = MAIN_LOOP_TIME - (currentTime - startTime);
+        if(cycleSlack < minCycleSlack){
+            minCycleSlack = cycleSlack;
+        }
         while(TRUE){
             getMillis(&currentTime);
-            uint16_t elapsedTime = monoMillis - startTime;
+            uint16_t elapsedTime = currentTime - startTime;
             if(elapsedTime >= MAIN_LOOP_TIME){
                 break;
             }
@@ -39,6 +51,13 @@ void init(void){
     ANSELD = 0;
     ANSELE = 0;
     
+    //Set up misc indicator LEDs
+    TRISCbits.TRISC2 = OUTPUT;
+    TRISCbits.TRISC3 = OUTPUT;
+    TRISCbits.TRISC5 = OUTPUT;
+    LED3LAT = FALSE;
+    LED4LAT = FALSE;
+    
     memset(status.all, 0, STATUS_LEN); //Initialize system error counters
     
     timerInit();
@@ -60,27 +79,33 @@ void init(void){
     }
     
     HV_init();
-    printf("High voltage control functions initialized\n");
+    printf("High voltage control functions initialized.\n");
     
     uint8_t paramLoadStatus = loadParamsFromEEPROM();
     if(paramLoadStatus == PARAM_LOAD_SUCCESS){
-        printf("Params loaded from EEPROM\n");
+        printf("Params loaded from EEPROM.\n");
     }
     else{
         printf("Error %u loading params from EEPROM!\n", paramLoadStatus);
         loadParamsFromProgram();
-        printf("Params loaded from program memory\n");
+        printf("Params loaded from program memory.\n");
     }
     
     
     TLC5947_init();
-    printf("TLC5947 initialized\n");
+    printf("TLC5947 initialized.\n");
     
     button_init();
-    printf("Buttons initialized\n");
+    printf("Buttons initialized.\n");
+    
+    PRNG_Init();
+    printf("Pseudorandom number generator initialized.\n");
     
     thrusters_init();
     printf("Thrusters initialized.\n");
+    
+    NeoPixel_init();
+    printf("NeoPixel control initialized.\n");
     
     printf("Initialization done.\n");
 #if defined(LOOPOUT) || defined(MSOUT)
@@ -89,11 +114,44 @@ void init(void){
 }
 
 void periodicTasks(void){
+    static uint8_t counter;
+    
+    counter++;
+    
+    if(counter==0){
+        //printf("Cycle slack: %u ms\n", cycleSlack);
+        printf("Minimum cycle slack: %u ms / %u ms\n", minCycleSlack, MAIN_LOOP_TIME);
+        minCycleSlack = 0xffff;
+        
+    }
+    
+    uint8_t i;
+    for(i=0; i<6; i++){
+        if((buttonState.all & (1<<i)) == 0 ){
+            //Button is not pressed
+            LEDBrightness[i] = 0;
+        }
+        else{
+            LEDBrightness[i] = 255;
+        }
+    }
+    //for(i=0; i<24; i++){
+    //    LEDBrightness[i] = brightness;
+    //}
+    
+    
+    TLC5947_write();
+    
+    LED3LAT = !LED3LAT;
+    
 #ifdef LOOPOUT
     //LATAbits.LATA0 = !LATAbits.LATA0;
 #endif
     dbgSerialPeriodic();
     updateInputs();
+    PRNG_Periodic();
+    thrusters_periodic();
+    NeoPixel_sendData();
     
     if(buttonChangeState.button4){
         HV_requestOn();

@@ -28,6 +28,11 @@
 
 #define SW_VER_STR "0.0.1"
 
+#define LED3LAT LATCbits.LATC2
+#define LED4LAT LATCbits.LATC3
+#define X3LAT LATCbits.LATC5
+
+
 #define INTEN (INTCON0bits.GIE = TRUE)
 #define INTDIS (INTCON0bits.GIE = FALSE)
 
