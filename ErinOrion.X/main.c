@@ -104,6 +104,9 @@ void init(void){
     thrusters_init();
     printf("Thrusters initialized.\n");
     
+    NeoPixel_init();
+    printf("NeoPixel control initialized.\n");
+    
     printf("Initialization done.\n");
 #if defined(LOOPOUT) || defined(MSOUT)
     TRISAbits.TRISA0 = OUTPUT;
@@ -119,7 +122,25 @@ void periodicTasks(void){
         //printf("Cycle slack: %u ms\n", cycleSlack);
         printf("Minimum cycle slack: %u ms / %u ms\n", minCycleSlack, MAIN_LOOP_TIME);
         minCycleSlack = 0xffff;
+        
     }
+    
+    uint8_t i;
+    for(i=0; i<6; i++){
+        if((buttonState.all & (1<<i)) == 0 ){
+            //Button is not pressed
+            LEDBrightness[i] = 0;
+        }
+        else{
+            LEDBrightness[i] = 255;
+        }
+    }
+    //for(i=0; i<24; i++){
+    //    LEDBrightness[i] = brightness;
+    //}
+    
+    
+    TLC5947_write();
     
     LED3LAT = !LED3LAT;
     
@@ -129,6 +150,8 @@ void periodicTasks(void){
     dbgSerialPeriodic();
     updateInputs();
     PRNG_Periodic();
+    thrusters_periodic();
+    NeoPixel_sendData();
     
     if(buttonChangeState.button4){
         HV_requestOn();

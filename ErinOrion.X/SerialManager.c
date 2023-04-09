@@ -20,6 +20,7 @@ void dbgSerialPeriodic(void){
             uint8_t badMessage = FALSE;
             
             uint8_t i, j;
+            uint16_t uint16;
             
             switch(currentMessage[cursor++]){
                 case 'p':
@@ -38,7 +39,7 @@ void dbgSerialPeriodic(void){
                         }
                         
                         //Get index
-                        i = (uint8_t)atoi(&(currentMessage[cursor++]));
+                        i = (uint8_t)atoi((int8_t *)&(currentMessage[cursor++]));
                         
                         //Advance cursor to the next space
                         while(cursor < currentMessageIdx){
@@ -95,6 +96,40 @@ void dbgSerialPeriodic(void){
                     //burn params to EEPROM
                     burnParamsToEEPROM();
                     
+                case 'c':
+                    if(currentMessage[cursor++] != ' '){
+                        badMessage = TRUE;
+                        break;
+                    }
+                    
+                    //Get channel
+                    i = (uint8_t)atoi(&(currentMessage[cursor++]));
+                    if(i > 23){
+                        printf("Invalid channel.\n");
+                        break;
+                    }
+                    
+                    //Advance cursor to the next space
+                    while(cursor < currentMessageIdx){
+                        if(currentMessage[cursor] == ' '){
+                            break;
+                        }
+                        cursor++;
+                    }
+                    if(cursor == currentMessageIdx){
+                        //No space found
+                        badMessage = TRUE;
+                        break;
+                    }
+                      
+                    j = (uint8_t)atoi(&(currentMessage[cursor++]));
+                    
+                    printf("Setting LED channel %d to %u\n", i, j);
+                    LEDBrightness[i] = j;
+                    
+                    break;
+                    
+                    
                 case 't':
                     //lamp test
                     break;
@@ -113,7 +148,7 @@ void dbgSerialPeriodic(void){
                     printf("\tb - burn params to EEPROM\n");
                     printf("\tlp - Load params from program memory\n");
                     printf("LED commands:\n");
-                    printf("\tt <0|1> - lamp test off/on\n");
+                    printf("\tc <ch> <val> - Set PWM channel to value\n");
                     break;
                 default:
                     badMessage = TRUE;

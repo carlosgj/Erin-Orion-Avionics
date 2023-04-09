@@ -20,6 +20,7 @@
       <itemPath>params.h</itemPath>
       <itemPath>PRNG.h</itemPath>
       <itemPath>EEPROM.h</itemPath>
+      <itemPath>NeoPixel.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -42,6 +43,8 @@
       <itemPath>params.c</itemPath>
       <itemPath>PRNG.c</itemPath>
       <itemPath>EEPROM.c</itemPath>
+      <itemPath>NeoPixel.c</itemPath>
+      <itemPath>fast.S</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -287,6 +290,8 @@
         <property key="memories.programmemory" value="true"/>
         <property key="memories.programmemory.ranges" value="0-7fff"/>
         <property key="poweroptions.powerenable" value="true"/>
+        <property key="programmerToGoFilePath"
+                  value="/home/carlos/Documents/Erin-Orion-Avionics/ErinOrion.X/debug/default/ErinOrion_ptg"/>
         <property key="programmerToGoImageName" value="ErinOrion_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
