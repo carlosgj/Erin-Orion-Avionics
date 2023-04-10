@@ -40,7 +40,12 @@
 #define PARAM_MAN_LOCKOUT_H         (21)
 #define PARAM_MAN_MIN_TIME          (22)
 #define PARAM_MAN_OFF_PROB          (23)
-
+#define PARAM_CLR_BTN_WHITE_R       (24)
+#define PARAM_CLR_BTN_WHITE_G       (25)
+#define PARAM_CLR_BTN_WHITE_B       (26)
+#define PARAM_CLR_BTN_ORANGE_R      (27)
+#define PARAM_CLR_BTN_ORANGE_G      (28)
+#define PARAM_CLR_BTN_ORANGE_B      (29)
 
 
 uint8_t params[NUM_PARAMS] __at(0x800);
@@ -68,17 +73,17 @@ const uint8_t programValues[] = {
     16,     //RCS idle mode turnoff probability
     32,     //RCS maneuver mode turnon probability
     32,     //RCS maneuver mode turnoff probability
-    4,      //Maneuver start probability
-    200,      //Maneuver lockout time low byte
+    255,    //Maneuver start probability
+    200,    //Maneuver lockout time low byte
     0,      //Maneuver lockout time high byte
     100,    //Maneuver minimum on-time (in cycles)
     4,      //Maneuver stop probability
-    0, //Param 24
-    0, //Param 25
-    0, //Param 26
-    0, //Param 27
-    0, //Param 28
-    0, //Param 29
+    100,    //Button white red amount
+    200,    //Button white green amount
+    255,    //Button white blue amount
+    200,    //Button orange red amount
+    255,    //Button orange green amount
+    0,      //Button orange blue amount
     0, //Param 30
     0, //Param 31
     0, //Param 32

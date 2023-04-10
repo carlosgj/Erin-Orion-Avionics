@@ -110,6 +110,9 @@ void init(void){
     NeoPixel_init();
     printf("NeoPixel control initialized.\n");
     
+    UI_init();
+    printf("User interface enabled.\n");
+    
     printf("Initialization done.\n");
 #if defined(LOOPOUT) || defined(MSOUT)
     TRISAbits.TRISA0 = OUTPUT;
@@ -118,34 +121,15 @@ void init(void){
 
 void periodicTasks(void){
     static uint8_t counter;
+    LED3LAT = !LED3LAT;
     
     counter++;
-    
     if(counter==0){
         //printf("Cycle slack: %u ms\n", cycleSlack);
         printf("Minimum cycle slack: %u ms / %u ms\n", minCycleSlack, MAIN_LOOP_TIME);
         minCycleSlack = 0xffff;
         
-    }
-    
-    uint8_t i;
-    for(i=0; i<6; i++){
-        if((buttonState.all & (1<<i)) == 0 ){
-            //Button is not pressed
-            LEDBrightness[i] = 0;
-        }
-        else{
-            LEDBrightness[i] = 255;
-        }
-    }
-    //for(i=0; i<24; i++){
-    //    LEDBrightness[i] = brightness;
-    //}
-    
-    
-    TLC5947_write();
-    
-    LED3LAT = !LED3LAT;
+    }    
     
 #ifdef LOOPOUT
     //LATAbits.LATA0 = !LATAbits.LATA0;
@@ -154,18 +138,15 @@ void periodicTasks(void){
     updateInputs();
     PRNG_Periodic();
     thrusters_periodic();
+    TLC5947_write();
     NeoPixel_sendData();
-    
-    if(buttonChangeState.button4){
-        HV_requestOn();
-    }
+    HV_periodic();
+    UI_periodic();
     
     if(paramScrub() != PARAM_SCRUB_SUCCESS){
         printf("FATAL: Param scrub failure!\n");
         RESET();
     }
-    
-    HV_periodic();
     
     //Memory scan increment
     

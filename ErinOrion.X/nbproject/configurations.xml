@@ -22,6 +22,8 @@
       <itemPath>EEPROM.h</itemPath>
       <itemPath>NeoPixel.h</itemPath>
       <itemPath>ADC.h</itemPath>
+      <itemPath>color.h</itemPath>
+      <itemPath>UI.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -47,6 +49,8 @@
       <itemPath>NeoPixel.c</itemPath>
       <itemPath>fast.S</itemPath>
       <itemPath>ADC.c</itemPath>
+      <itemPath>color.c</itemPath>
+      <itemPath>UI.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

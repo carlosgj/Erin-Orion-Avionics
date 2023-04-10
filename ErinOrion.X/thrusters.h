@@ -5,8 +5,9 @@
 #include "common.h"
 #include "TLC5947.h"
 #include "PRNG.h"
+#include "time.h"
 
-#define MAIN_THRUSTER_LED_INDEX     (2)
+#define MAIN_THRUSTER_LED_INDEX     (23)
 
 #define MANEUVER_OFFSET     (100)
 
@@ -14,16 +15,13 @@
 #define MAN_STATE_RAMPUP    (1)
 #define MAN_STATE_ON        (2)
 #define MAN_STATE_RAMPDOWN  (3)
+#define MAN_STATE_LOCKOUT   (4)
 
 uint8_t rcsState = 0;
 
 uint8_t maneuver = FALSE;
 
-uint8_t maneuverState = MAN_STATE_OFF;
-
-uint16_t cyclesSinceLastManeuver = 0;
-uint8_t maneuverLockout = TRUE;
-uint8_t maneuverOnTime = 0;
+uint8_t maneuverState = MAN_STATE_LOCKOUT;
 
 void thrusters_init(void);
 void thrusters_periodic(void);

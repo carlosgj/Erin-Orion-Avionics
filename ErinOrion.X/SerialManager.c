@@ -97,6 +97,16 @@ void dbgSerialPeriodic(void){
                     burnParamsToEEPROM();
                     
                 case 'c':
+                    if(currentMessageIdx == 2){
+                        //Single 'c' character
+                        //Dump PWMs
+                        for(i=0; i<24; i++){
+                            printf("%u: %u\n", i, LEDBrightness[i]);
+                        }
+                        break;
+                    }
+                    
+                    
                     if(currentMessage[cursor++] != ' '){
                         badMessage = TRUE;
                         break;
@@ -148,6 +158,7 @@ void dbgSerialPeriodic(void){
                     printf("\tb - burn params to EEPROM\n");
                     printf("\tlp - Load params from program memory\n");
                     printf("LED commands:\n");
+                    printf("\tc - Dump current PWM values\n");
                     printf("\tc <ch> <val> - Set PWM channel to value\n");
                     break;
                 default:

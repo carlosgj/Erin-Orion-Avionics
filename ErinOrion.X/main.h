@@ -17,6 +17,7 @@
 #include "PRNG.h"
 #include "NeoPixel.h"
 #include "ADC.h"
+#include "UI.h"
 
 #define WDT_CHECK_GOOD 0x11
 
