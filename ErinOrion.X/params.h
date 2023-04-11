@@ -68,11 +68,11 @@ const uint8_t programValues[] = {
     42,     //Thruster manuever rampup time
     6,      //Thruster maneuver rampup increment
     42,     //Thruster manuever rampdown time
-    6,      //Thruster maneuver rampdown increment
-    2,      //RCS idle mode turnon probability
-    16,     //RCS idle mode turnoff probability
+    20,      //Thruster maneuver rampdown increment
+    3,      //RCS idle mode turnon probability
+    20,     //RCS idle mode turnoff probability
     32,     //RCS maneuver mode turnon probability
-    32,     //RCS maneuver mode turnoff probability
+    50,     //RCS maneuver mode turnoff probability
     255,    //Maneuver start probability
     200,    //Maneuver lockout time low byte
     0,      //Maneuver lockout time high byte

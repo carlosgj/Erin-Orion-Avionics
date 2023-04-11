@@ -7,7 +7,9 @@
 #include "PRNG.h"
 #include "time.h"
 
-#define MAIN_THRUSTER_LED_INDEX     (23)
+#define MAIN_THRUSTER_LED_INDEX_1     (18)
+#define MAIN_THRUSTER_LED_INDEX_2     (19)
+#define MAIN_THRUSTER_LED_INDEX_3     (20)
 
 #define MANEUVER_OFFSET     (100)
 
@@ -19,13 +21,12 @@
 
 uint8_t rcsState = 0;
 
-uint8_t maneuver = FALSE;
+uint8_t maneuver = TRUE;
 
 uint8_t maneuverState = MAN_STATE_LOCKOUT;
 
 void thrusters_init(void);
 void thrusters_periodic(void);
-void thrusters_setState(uint8_t state);
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

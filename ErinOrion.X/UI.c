@@ -49,11 +49,17 @@ void UI_periodic(void){
                     //Turn off cabin lights
                     printf("Turning off cabin lights.\n");
                     CabinState = FALSE;
+                    LEDBrightness[15] = 255;
+                    LEDBrightness[16] = 255;
+                    LEDBrightness[17] = 255;
                 }
                 else{
                     //Turn on cabin lights
                     printf("Turning on cabin lights.\n");
                     CabinState = TRUE;
+                    LEDBrightness[15] = 0;
+                    LEDBrightness[16] = 0;
+                    LEDBrightness[17] = 0;
                 }
             }
 

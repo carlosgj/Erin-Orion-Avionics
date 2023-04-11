@@ -22,18 +22,19 @@ void TLC5947_init(void){
 
 void TLC5947_write(void){
     uint8_t ledIdx, bitIdx;
+    LATBbits.LATB3 = TRUE; //Start with clock low
     //Start with MSB of output 23
-    for(ledIdx=23; ledIdx<254; ledIdx--){
+    for(ledIdx=23; ledIdx<24; ledIdx--){
         //Clock out 8 real bits
-        for(bitIdx=7; bitIdx<254; bitIdx--){
+        for(bitIdx=7; bitIdx<8; bitIdx--){
             LATBbits.LATB3 = TRUE; //Clock
-            __delay_us(50);
             if(((LEDBrightness[ledIdx] >> bitIdx)&0b1) == 0){
                 LATBbits.LATB2 = TRUE;
             }
             else{
                 LATBbits.LATB2 = FALSE;
             }
+            __delay_us(50);
             LATBbits.LATB3 = FALSE;
             __delay_us(50);
         }
@@ -56,10 +57,11 @@ void TLC5947_write(void){
         __delay_us(50);
         LATBbits.LATB3 = FALSE;
         __delay_us(50);
+        LATBbits.LATB3 = TRUE;
     }
     
     LATBbits.LATB5 = FALSE;
-    __delay_us(50);
+    __delay_us(100);
     LATBbits.LATB5 = TRUE;
 }
 

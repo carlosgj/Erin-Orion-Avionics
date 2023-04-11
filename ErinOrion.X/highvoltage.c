@@ -1,7 +1,8 @@
 #include "highvoltage.h"
 
 void HV_init(void){
-    
+    TRISDbits.TRISD4 = OUTPUT;
+    LATDbits.LATD4 = FALSE;
 }
 
 void HV_periodic(void){
@@ -21,8 +22,6 @@ void HV_periodic(void){
         }
     }
     
-    //TODO: write pin state
-    
     //Update lockout
     if(HVLockout){
         //Force state false
@@ -32,6 +31,14 @@ void HV_periodic(void){
             HVLockout = FALSE;
             printf("HV lockout expired at t=%u.\n", now);
         }
+    }
+    
+    //Implement state
+    if(HVState){
+        LATDbits.LATD4 = TRUE;
+    }
+    else{
+        LATDbits.LATD4 = FALSE;
     }
 }
 

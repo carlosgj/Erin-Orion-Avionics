@@ -128,6 +128,7 @@ void periodicTasks(void){
         //printf("Cycle slack: %u ms\n", cycleSlack);
         printf("Minimum cycle slack: %u ms / %u ms\n", minCycleSlack, MAIN_LOOP_TIME);
         minCycleSlack = 0xffff;
+        //TLC5947_write();
         
     }    
     

@@ -1,7 +1,15 @@
 #include "thrusters.h"
 
 void thrusters_init(void){
+    TRISBbits.TRISB0 = OUTPUT;
+    TRISBbits.TRISB1 = OUTPUT;
+    TRISDbits.TRISD6 = OUTPUT;
+    TRISDbits.TRISD7 = OUTPUT;
     
+    LATBbits.LATB0 = FALSE;
+    LATBbits.LATB1 = FALSE;
+    LATDbits.LATD6 = FALSE;
+    LATDbits.LATD7 = FALSE;
 }
 
 void thrusters_periodic(void){
@@ -16,14 +24,18 @@ void thrusters_periodic(void){
                     printf("%u Starting maneuver\n", now);
                     //printf("%u, %u, %u\n", PRNGLatestFull, (uint16_t)MANEUVER_OFFSET, (uint16_t)(MANEUVER_OFFSET + params[PARAM_MAN_PROB]));
                     maneuverState = MAN_STATE_RAMPUP;
-                    LEDBrightness[MAIN_THRUSTER_LED_INDEX] = 0; //Just to be sure
+                    LEDBrightness[MAIN_THRUSTER_LED_INDEX_1] = 0; //Just to be sure
+                    LEDBrightness[MAIN_THRUSTER_LED_INDEX_2] = 0;
+                    LEDBrightness[MAIN_THRUSTER_LED_INDEX_3] = 0;
                     stateCounter = 0;
                 }
             }
             break;
             
         case MAN_STATE_RAMPUP:
-            LEDBrightness[MAIN_THRUSTER_LED_INDEX] += params[PARAM_THRUST_RAMPUP_INC];
+            LEDBrightness[MAIN_THRUSTER_LED_INDEX_1] += params[PARAM_THRUST_RAMPUP_INC];
+            LEDBrightness[MAIN_THRUSTER_LED_INDEX_2] += params[PARAM_THRUST_RAMPUP_INC];
+            LEDBrightness[MAIN_THRUSTER_LED_INDEX_3] += params[PARAM_THRUST_RAMPUP_INC];
             stateCounter++;
             if(stateCounter == params[PARAM_THRUST_RAMPUP_TIME]){
                 printf("%u Thruster rampup done.\n", now);
@@ -46,11 +58,15 @@ void thrusters_periodic(void){
             break;
             
         case MAN_STATE_RAMPDOWN:
-            if(LEDBrightness[MAIN_THRUSTER_LED_INDEX] < params[PARAM_THRUST_RAMPDWN_INC]){
-                LEDBrightness[MAIN_THRUSTER_LED_INDEX] = 0;
+            if(LEDBrightness[MAIN_THRUSTER_LED_INDEX_1] < params[PARAM_THRUST_RAMPDWN_INC]){
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_1] = 0;
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_2] = 0;
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_3] = 0;
             }
             else{
-                LEDBrightness[MAIN_THRUSTER_LED_INDEX] -= params[PARAM_THRUST_RAMPDWN_INC];
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_1] -= params[PARAM_THRUST_RAMPDWN_INC];
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_2] -= params[PARAM_THRUST_RAMPDWN_INC];
+                LEDBrightness[MAIN_THRUSTER_LED_INDEX_3] -= params[PARAM_THRUST_RAMPDWN_INC];
             }
             
             stateCounter++;
@@ -76,7 +92,7 @@ void thrusters_periodic(void){
     //RCS thrusters
     uint8_t onProb, offProb;
     //In "idle", RCS firings are rare and short
-    if(maneuverState == MAN_STATE_OFF){
+    if(maneuverState == MAN_STATE_OFF || maneuverState == MAN_STATE_LOCKOUT){
         onProb = params[PARAM_RCS_IDLE_ON_PRB];
         offProb = params[PARAM_RCS_IDLE_OFF_PRB];
     }
@@ -85,11 +101,13 @@ void thrusters_periodic(void){
         offProb = params[PARAM_RCS_MAN_OFF_PRB];
     }
     
-    if(maneuver){
-        uint8_t rcs;
+    uint8_t rcs;
+    
+    if(maneuver){    
         for(rcs=0; rcs<4; rcs++){
             uint8_t offset = rcs * 64;
             if((rcsState >> rcs) & 1){
+                
                 //If this RCS thruster is on, see if we need to turn it off
                 if( (PRNGLatestSmall > offset) && (PRNGLatestSmall < (offset + offProb))){
                     //Turn on
@@ -114,4 +132,41 @@ void thrusters_periodic(void){
     else{
         rcsState = 0;
     }
+    
+    //Implement RCS state
+    for(rcs=0; rcs<4; rcs++){
+        if((rcsState >> rcs) & 1){
+            switch(rcs){
+                case 0:
+                    LATBbits.LATB0 = TRUE;
+                    break;
+                case 1:
+                    LATBbits.LATB1 = TRUE;
+                    break;
+                case 2:
+                    LATDbits.LATD6 = TRUE;
+                    break;
+                case 3:
+                    LATDbits.LATD7 = TRUE;
+                    break;
+            }
+        }
+        else{
+            switch(rcs){
+                case 0:
+                    LATBbits.LATB0 = FALSE;
+                    break;
+                case 1:
+                    LATBbits.LATB1 = FALSE;
+                    break;
+                case 2:
+                    LATDbits.LATD6 = FALSE;
+                    break;
+                case 3:
+                    LATDbits.LATD7 = FALSE;
+                    break;
+            }
+        }
+    }
+    
 }

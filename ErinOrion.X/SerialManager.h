@@ -8,6 +8,7 @@
 #include "UART.h"
 #include "commConstants.h"
 #include "TLC5947.h"
+#include "highvoltage.h"
 
 union controlByte_t {
     uint8_t byte;

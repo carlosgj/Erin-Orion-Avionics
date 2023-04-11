@@ -148,6 +148,11 @@ void dbgSerialPeriodic(void){
                     RESET();
                     break; //lol
                     
+                case 'v':
+                    printf("Requesting HV on\n");
+                    HV_requestOn();
+                    break;
+                    
                 case 'h':
                     printf("Interactive control:\n");
                     printf("\tx - Reset\n");
@@ -160,6 +165,8 @@ void dbgSerialPeriodic(void){
                     printf("LED commands:\n");
                     printf("\tc - Dump current PWM values\n");
                     printf("\tc <ch> <val> - Set PWM channel to value\n");
+                    printf("High voltage commands:\n");
+                    printf("\tv - Trigger HV\n");
                     break;
                 default:
                     badMessage = TRUE;
