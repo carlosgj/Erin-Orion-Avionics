@@ -25,10 +25,14 @@ void TLC5947_write(void){
     LATBbits.LATB3 = TRUE; //Start with clock low
     //Start with MSB of output 23
     for(ledIdx=23; ledIdx<24; ledIdx--){
+        uint8_t brightness = LEDBrightness[ledIdx];
+        if(nightMode){
+            brightness >>= params[PARAM_NIGHT_MODE_SHIFT];
+        }
         //Clock out 8 real bits
         for(bitIdx=7; bitIdx<8; bitIdx--){
             LATBbits.LATB3 = TRUE; //Clock
-            if(((LEDBrightness[ledIdx] >> bitIdx)&0b1) == 0){
+            if(((brightness >> bitIdx)&0b1) == 0){
                 LATBbits.LATB2 = TRUE;
             }
             else{

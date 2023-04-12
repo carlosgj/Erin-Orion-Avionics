@@ -46,6 +46,8 @@
 #define PARAM_CLR_BTN_ORANGE_R      (27)
 #define PARAM_CLR_BTN_ORANGE_G      (28)
 #define PARAM_CLR_BTN_ORANGE_B      (29)
+#define PARAM_RCS_NIGHT_ON_PRB      (30)
+#define PARAM_NIGHT_MODE_SHIFT      (31)
 
 
 uint8_t params[NUM_PARAMS] __at(0x800);
@@ -84,9 +86,8 @@ const uint8_t programValues[] = {
     200,    //Button orange red amount
     255,    //Button orange green amount
     0,      //Button orange blue amount
-    0, //Param 30
-    0, //Param 31
-    0, //Param 32
+    1,      //RCS night mode turnon probability
+    3,      //Night mode brightness rightshift bits
 };
 
 void write_param(uint8_t index, uint8_t value);

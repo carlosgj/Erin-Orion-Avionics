@@ -38,7 +38,7 @@ void thrusters_periodic(void){
             LEDBrightness[MAIN_THRUSTER_LED_INDEX_3] += params[PARAM_THRUST_RAMPUP_INC];
             stateCounter++;
             if(stateCounter == params[PARAM_THRUST_RAMPUP_TIME]){
-                printf("%u Thruster rampup done.\n", now);
+                //printf("%u Thruster rampup done.\n", now);
                 maneuverState = MAN_STATE_ON;
                 stateCounter = 0;
             }
@@ -71,7 +71,7 @@ void thrusters_periodic(void){
             
             stateCounter++;
             if(stateCounter == params[PARAM_THRUST_RAMPDWN_TIME]){
-                printf("%u Thruster rampdown done.\n", now);
+                //printf("%u Thruster rampdown done.\n", now);
                 maneuverState = MAN_STATE_LOCKOUT;
                 stateCounter = 0;
             }
@@ -93,7 +93,12 @@ void thrusters_periodic(void){
     uint8_t onProb, offProb;
     //In "idle", RCS firings are rare and short
     if(maneuverState == MAN_STATE_OFF || maneuverState == MAN_STATE_LOCKOUT){
-        onProb = params[PARAM_RCS_IDLE_ON_PRB];
+        if(nightMode){
+            onProb = params[PARAM_RCS_NIGHT_ON_PRB];
+        }
+        else{
+            onProb = params[PARAM_RCS_IDLE_ON_PRB];
+        }
         offProb = params[PARAM_RCS_IDLE_OFF_PRB];
     }
     else{

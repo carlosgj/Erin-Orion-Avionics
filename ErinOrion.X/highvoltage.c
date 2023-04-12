@@ -18,7 +18,7 @@ void HV_periodic(void){
             HVState = FALSE;
             HVLockout = TRUE;
             HVOffTime = now;
-            printf("Turning off HV after timeout at t=%u.\n", now);
+            printf("%u Turning off HV after timeout.\n", now);
         }
     }
     
@@ -29,7 +29,7 @@ void HV_periodic(void){
         uint16_t HVLockoutDuration = get16BitParam(PARAM_HV_LOCKOUT_DURATION_L);
         if(now - HVOffTime >= HVLockoutDuration){
             HVLockout = FALSE;
-            printf("HV lockout expired at t=%u.\n", now);
+            printf("%u HV lockout expired.\n", now);
         }
     }
     
@@ -43,15 +43,17 @@ void HV_periodic(void){
 }
 
 void HV_requestOn(void){
+    uint16_t now;
+    getMillis(&now);
     if(HVLockout){
-        printf("HV request rejected due to lockout.\n");
+        printf("%u HV request rejected due to lockout.\n", now);
         return;
     }
     if(HVState){
-        printf("HV already on.\n");
+        printf("%u HV already on.\n", now);
         return;
     }
-    getMillis(&HVOnTime);
-    printf("Turning HV on by request at t=%u.\n", HVOnTime);
+    HVOnTime = now;
+    printf("%u Turning HV on by request.\n", HVOnTime);
     HVState = TRUE;
 }

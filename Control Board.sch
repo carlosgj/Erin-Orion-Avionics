@@ -11452,6 +11452,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="OK1" gate="A" pin="VO1"/>
 <pinref part="R9" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-5.08" x2="139.7" y2="-5.08" width="0.1524" layer="91"/>
+<label x="139.7" y="-5.08" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="RA0"/>
@@ -11479,6 +11480,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="R11" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-40.64" x2="127" y2="-40.64" width="0.1524" layer="91"/>
 <wire x1="127" y1="-40.64" x2="127" y2="-35.56" width="0.1524" layer="91"/>
+<label x="127" y="-40.64" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="RA1"/>
@@ -11590,6 +11592,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="OK2" gate="A" pin="VO1"/>
 <pinref part="R14" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-83.82" x2="139.7" y2="-83.82" width="0.1524" layer="91"/>
+<label x="139.7" y="-83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IN4_BUF" class="0">
@@ -11603,6 +11606,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="R16" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-119.38" x2="127" y2="-119.38" width="0.1524" layer="91"/>
 <wire x1="127" y1="-119.38" x2="127" y2="-114.3" width="0.1524" layer="91"/>
+<label x="127" y="-119.38" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IN5_BUF" class="0">
@@ -11615,6 +11619,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="OK3" gate="A" pin="VO1"/>
 <pinref part="R19" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-160.02" x2="139.7" y2="-160.02" width="0.1524" layer="91"/>
+<label x="139.7" y="-160.02" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="IN6_BUF" class="0">
@@ -11628,6 +11633,7 @@ Siemens, Hewlett-Packard, Texas Instuments, Sharp, Motorola&lt;p&gt;
 <pinref part="R21" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="-195.58" x2="127" y2="-195.58" width="0.1524" layer="91"/>
 <wire x1="127" y1="-195.58" x2="127" y2="-190.5" width="0.1524" layer="91"/>
+<label x="127" y="-195.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="+5V/2" class="0">

@@ -21,7 +21,7 @@
 
 uint8_t rcsState = 0;
 
-uint8_t maneuver = TRUE;
+uint8_t maneuver = FALSE;
 
 uint8_t maneuverState = MAN_STATE_LOCKOUT;
 

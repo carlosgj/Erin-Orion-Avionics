@@ -22,8 +22,8 @@
 
 uint8_t UIState = UI_STATE_NORMAL;
 
-uint8_t FloodState = FLOOD_STATE_OFF;
-uint8_t CabinState = FALSE;
+uint8_t floodState = FLOOD_STATE_OFF;
+uint8_t cabinState = FALSE;
 
 void UI_init(void);
 void UI_periodic(void);

@@ -26,7 +26,7 @@
 
 #define _XTAL_FREQ (64000000)
 
-#define SW_VER_STR "0.0.1"
+#define SW_VER_STR "1.0.0"
 
 #define LED3LAT LATCbits.LATC2
 #define LED4LAT LATCbits.LATC3
@@ -68,6 +68,8 @@ FIFO DbgUARTRxBuf;
 enum ResetCause resetCause = RS_INVALID;
 
 uint16_t wdtCheckWord = 0;
+
+uint8_t nightMode = FALSE;
 
 void fatal(const char * message);
 void printf_bin(uint8_t val);

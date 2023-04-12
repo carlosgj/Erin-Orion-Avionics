@@ -111,9 +111,10 @@ void init(void){
     printf("NeoPixel control initialized.\n");
     
     UI_init();
-    printf("User interface enabled.\n");
+    printf("User interface initialized.\n");
     
     printf("Initialization done.\n");
+    printf("---------------------\n");
 #if defined(LOOPOUT) || defined(MSOUT)
     TRISAbits.TRISA0 = OUTPUT;
 #endif
@@ -121,15 +122,16 @@ void init(void){
 
 void periodicTasks(void){
     static uint8_t counter;
+    
     LED3LAT = !LED3LAT;
     
     counter++;
     if(counter==0){
+        uint16_t now;
+        getMillis(&now);
         //printf("Cycle slack: %u ms\n", cycleSlack);
-        printf("Minimum cycle slack: %u ms / %u ms\n", minCycleSlack, MAIN_LOOP_TIME);
-        minCycleSlack = 0xffff;
-        //TLC5947_write();
-        
+        printf("%u Minimum cycle slack: %u ms / %u ms\n", now, minCycleSlack, MAIN_LOOP_TIME);
+        minCycleSlack = 0xffff;        
     }    
     
 #ifdef LOOPOUT
