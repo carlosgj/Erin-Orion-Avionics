@@ -19,7 +19,7 @@ void thrusters_periodic(void){
     //Iterate state machine
     switch(maneuverState){
         case MAN_STATE_OFF:
-            if(maneuver){
+            if(maneuver && !nightMode){
                 if((PRNGLatestFull > (uint16_t)MANEUVER_OFFSET) && (PRNGLatestFull < (uint16_t)(MANEUVER_OFFSET + params[PARAM_MAN_PROB])) ){
                     printf("%u Starting maneuver\n", now);
                     //printf("%u, %u, %u\n", PRNGLatestFull, (uint16_t)MANEUVER_OFFSET, (uint16_t)(MANEUVER_OFFSET + params[PARAM_MAN_PROB]));

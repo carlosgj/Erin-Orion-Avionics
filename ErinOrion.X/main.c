@@ -64,7 +64,7 @@ void init(void){
     //__delay_ms(500);
     
     debug_UART_init();
-    __delay_ms(10);
+    //__delay_ms(10);
     
     printf("Serial initialized.\n");
     printf("SW ver: %s\n", SW_VER_STR);

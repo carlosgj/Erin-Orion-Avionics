@@ -86,7 +86,7 @@ const uint8_t programValues[] = {
     200,    //Button orange red amount
     255,    //Button orange green amount
     0,      //Button orange blue amount
-    1,      //RCS night mode turnon probability
+    2,      //RCS night mode turnon probability
     3,      //Night mode brightness rightshift bits
 };
 
